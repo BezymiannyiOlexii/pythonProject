@@ -51,7 +51,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 with open('data/' + filename, 'rb') as f:
                     raw = f.read()
 
-                #conn.sendall(len(filename).to_bytes(4, 'big'))
-                #conn.sendall(filename.encode())
                 conn.sendall(len(raw).to_bytes(8, 'big'))
                 conn.sendall(raw)
