@@ -85,17 +85,6 @@ def login():
     return render_template('login.html')
 
 
-
-
-
-
-
-
-
-
-
-
-
 @app.route('/')
 @login_required
 def index():
