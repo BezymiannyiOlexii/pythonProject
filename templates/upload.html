@@ -3,9 +3,11 @@
 Загрузка
 {% endblock %}
 {% block body %}
-    <h1>File Upload</h1>
-    <form method="POST" action="" enctype="multipart/form-data">
-      <p><input type="file" name="file"></p>
-      <p><input type="submit" value="Submit"></p>
+    <header class="d-flex justify-content-center py-3">
+        <form method="POST" action="" enctype="multipart/form-data">
+          <p><input class="input is-large" type="file" name="file"></p>
+          <br>
+          <p><input class="button is-block is-info is-large is-middle" type="submit" value="Submit"></p>
+      </header>
     </form>
 {% endblock %}

@@ -88,7 +88,7 @@ def login():
 @app.route('/')
 @login_required
 def index():
-    return render_template('index.html')
+    return redirect('/login')
 
 @app.route('/upload')
 @login_required
@@ -186,7 +186,7 @@ def disk():
             size = '%.2f' % file_size + ' {}'.format(file_weight)
 
         database_sizes.append(size)
-    print(database_files, database_sizes)
+    #print(database_files, database_sizes)
     data = zip(database_files, database_sizes)
     return render_template('disk.html', data=data)
 
