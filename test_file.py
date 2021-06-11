@@ -1,9 +1,10 @@
 import os
 import socket
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin, LoginManager, login_user, login_required, current_user
+from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
+
 
 app = Flask(__name__)
 db = SQLAlchemy()
@@ -15,7 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
 login_manager = LoginManager()
-login_manager.login_view = 'app.login'
+login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 class User(UserMixin, db.Model):
@@ -74,8 +75,10 @@ def login_post():
     return redirect('/disk')
 
 @app.route('/logout')
+@login_required
 def logout():
-    return 'Logout'
+    logout_user()
+    return redirect('/login')
 
 @app.route('/login')
 def login():
@@ -94,15 +97,18 @@ def login():
 
 
 @app.route('/')
+@login_required
 def index():
     return render_template('index.html')
 
 @app.route('/upload')
+@login_required
 def upload():
     return render_template('upload.html')
 
 
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload_file():
     HOST = "127.0.0.1"
     PORT = 65431
@@ -124,6 +130,7 @@ def upload_file():
     return redirect('/upload')
 
 @app.route('/download')
+@login_required
 def download_file():
 
     HOST = "127.0.0.1"
@@ -170,6 +177,7 @@ def download_file():
 
 
 @app.route('/disk', methods=['GET'])
+@login_required
 def disk():
     database_files = os.listdir('data/')
     database_sizes = list()
